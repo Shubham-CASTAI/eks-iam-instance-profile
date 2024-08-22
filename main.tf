@@ -1,12 +1,27 @@
+# locals {
+#   resource_name_postfix = var.aws_cluster_name
+
+#   iam_role_name              = "castai-eks-${substr(local.resource_name_postfix, 0, 53)}"
+#   iam_policy_name            = var.create_iam_resources_per_cluster ? "CastEKSPolicy-${local.resource_name_postfix}" : "CastEKSPolicy-tf"
+#   iam_role_policy_name       = "castai-user-policy-${substr(local.resource_name_postfix, 0, 45)}"
+#   instance_profile_role_name = "castai-eks-instance-${substr(local.resource_name_postfix, 0, 44)}"
+#   iam_policy_prefix          = "arn:${data.aws_partition.current.partition}:iam::aws:policy"
+# }
+
+
 locals {
   resource_name_postfix = var.aws_cluster_name
+  castai_cluster_id     = var.castai_cluster_id
 
-  iam_role_name              = "castai-eks-${substr(local.resource_name_postfix, 0, 53)}"
-  iam_policy_name            = var.create_iam_resources_per_cluster ? "CastEKSPolicy-${local.resource_name_postfix}" : "CastEKSPolicy-tf"
-  iam_role_policy_name       = "castai-user-policy-${substr(local.resource_name_postfix, 0, 45)}"
-  instance_profile_role_name = "castai-eks-instance-${substr(local.resource_name_postfix, 0, 44)}"
-  iam_policy_prefix          = "arn:${data.aws_partition.current.partition}:iam::aws:policy"
+  iam_role_name = "cast-eks-${substr(local.resource_name_postfix, 0, 30)}-cluster-role-${substr(local.castai_cluster_id, 0, 8)}"
+
+  instance_profile_role_name = "cast-${substr(local.resource_name_postfix, 0, 40)}-eks-${substr(local.castai_cluster_id, 0, 8)}"
+
+  iam_policy_name      = var.create_iam_resources_per_cluster ? "CastEKSPolicy-${local.resource_name_postfix}" : "CastEKSPolicy-tf"
+  iam_role_policy_name = "castai-user-policy-${substr(local.resource_name_postfix, 0, 45)}"
+  iam_policy_prefix    = "arn:${data.aws_partition.current.partition}:iam::aws:policy"
 }
+
 
 data "aws_partition" "current" {}
 
