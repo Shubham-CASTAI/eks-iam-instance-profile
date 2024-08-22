@@ -8,7 +8,7 @@
 #   iam_policy_prefix          = "arn:${data.aws_partition.current.partition}:iam::aws:policy"
 # }
 
-
+# Below changes are made to fetch the iam_role_name and instance_profile_role_name in the required format
 locals {
   resource_name_postfix = var.aws_cluster_name
   castai_cluster_id     = var.castai_cluster_id
